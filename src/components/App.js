@@ -1,18 +1,23 @@
 import React, { Component } from 'react';
-import fetch from 'node-fetch';
+import MainPage from './mainPage';
+import Login from './login';
 
 function App() {
-  fetch('/test')
-    .then((data) => {
-      console.log('here');
-      data.json();
-    })
-    .then((data) => {
-      console.log('not bob', data);
-    });
+  // A state that represents if user is logged in
+  // If user is logged in:
+    // Return mainpage component
+  return (
+    
+    <div>
+      <MainPage />
+    </div>
 
-  return <div>Hi</div>;
+  )
+    
+  // Else 
+    // Return login component
+    
 }
 
 export default App;
-//test 2
+
