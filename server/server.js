@@ -12,8 +12,8 @@ const fetch = require('node-fetch');
 //client ID is stored in .env file for security
 require('dotenv').config();
 
-const clientId = process.env.CLIENT_ID;
-const clientSecret = process.env.CLIENT_SECRET;
+const clientId = process.env.CLIENT_ID; //ADD YOUR OWN CLIENT ID to your .env file
+const clientSecret = process.env.CLIENT_SECRET; //ADD YOUR OWN CLIENT SECRET
 /*Will need to include this if using PKCE auth code flow. 
 Secret is generated when a dev account on spotify is created
 Make sure to remove this after project is done if you care about your spotify security
@@ -49,7 +49,7 @@ app.get('/login', (req, res) => {
   //Below is for PKCE, to implement later
   // const codeVerifier = generateRandomString();
   // const codeChallenge = base64UrlEncode(crypto.createHash('sha256').update(codeVerifier).digest());
-  const state = generateRandomString(16);
+  const state = generateRandomString(16); //need to generate random state string for security
 
   const authorizationUrl =
     'https://accounts.spotify.com/authorize?' +
@@ -69,34 +69,11 @@ app.get('/login', (req, res) => {
 
 // get request on callback page. we set the callback page as redirect uri when we got client id from spotify
 app.get('/callback', (req, res) => {
-  const code = req.query.code || null;
+  const code = req.query.code || null; //pulling out the authorization code after oauthing
   const state = req.query.state || null;
-  const storedState = req.cookies ? req.cookies[stateKey] : null;
+  const storedState = req.cookies ? req.cookies[stateKey] : null; //if we have cookies, then pull out the value from stateKey property
 
-  // app.get('/callback', async (req, res) => {
-  //   fetch('https://accounts.spotify.com/api/token', {
-  //     method: 'POST',
-  //     headers: {
-  //       Authorization: `Basic ${new Buffer.from(
-  //         `${clientId}:${clientSecret}}`
-  //       ).toString('base64')}`,
-  //       'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
-  //     },
-  //     body: new URLSearchParams({
-  //       grant_type: 'client_credentials',
-  //       code: req.query.code,
-  //       redirect_uri: redirectUri,
-  //     }),
-  //   })
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       if (data) {
-  //         res.cookie('accessToken', data.access_token);
-  //         // res.status(200).redirect('http://localhost:3000/');
-  //       }
-  //     });
-  // });
-
+  //can use Node fetch but axios seems to be a bit more simple and more commonly used with Spotify api
   axios({
     method: 'post',
     url: 'https://accounts.spotify.com/api/token',
@@ -109,16 +86,27 @@ app.get('/callback', (req, res) => {
       'content-type': 'application/x-www-form-urlencoded',
       //a buffer is a temporary storage area in memory that is used to hold data while it is being transferred from one place to another.
       //a buffer object is a specific implementation of a buffer that is commonly used in programming to represent and manipulate binary data.
+      //spent a couple hours with this stupid syntax so dont mess this up!!!!
+      //Update clientID and clientSecret with your updated ones and check to see if token is being generated
+
+      /* Token should look like this:
+{
+  "access_token": "ACCESS TOKEN", <-- your access token
+  "token_type": "Bearer",
+  "expires_in": 3600,
+  "refresh_token": "REFRESH TOKEN",
+  "scope": "playlist-read-private user-modify-playback-state playlist-modify-private playlist-modify-public user-read-playback-state"
+}
+  */
       Authorization:
         'Basic ' +
         new Buffer.from(`${clientId}:${clientSecret}`).toString('base64'),
     },
-
-    // json: true,
   })
     .then((response) => {
-      console.log('STATUS CODE: ', response.staus);
+      console.log('TOKEN: ', response.data);
       if (response.status === 200) {
+        const { access_token, token_type } = response.data;
         //response using <pre> will display data received from spotify without linebreaks, whitespace
         //axios stores data returned by requests in the data property of the response obj
         res.send(`<pre>${JSON.stringify(response.data, null, 2)}</pre>`);
@@ -131,41 +119,6 @@ app.get('/callback', (req, res) => {
       res.send(error);
     });
 });
-
-// app.get('/callback', async (req, res) => {
-//   const code = req.query.code || null;
-//   const state = req.query.state || null;
-//   const storedState = req.cookies ? req.cookies[stateKey] : null;
-
-//   if (state === null || state !== storedState) {
-//     res.redirect('/#' +
-//       querystring.stringify({
-//         error: 'state_mismatch'
-//       }));
-//   } else {
-//     res.clearCookie(stateKey);
-//     const codeVerifier = req.cookies.codeVerifier;
-//     const tokenParams = {
-//       grant_type: 'authorization_code',
-//       code: code,
-//       redirect_uri: redirectUri,
-//       code_verifier: codeVerifier,
-//       client_id: clientId,
-//       client_secret: clientSecret
-//     };
-//     const tokenResponse = await fetch('https://accounts.spotify.com/api/token', {
-//       method: 'POST',
-//       headers: {
-//         'Content-Type': 'application/x-www-form-urlencoded'
-//       },
-//       body: new URLSearchParams(tokenParams)
-//     });
-//     const tokenData = await tokenResponse.json();
-//     const accessToken = tokenData.access_token;
-//     const refreshToken = tokenData.refresh_token;
-//     // Use the access token to make requests to the Spotify Web API
-//   }
-// });
 
 //TODO:
 //CONNECT TO THE DATABASE
@@ -184,3 +137,22 @@ app.get('/', (req, res) => {
 });
 
 app.listen(PORT, () => console.log(`Listening on PORT: ${PORT}`));
+
+//NOTES ON ACCESS TOKEN STORAGE:
+/* 
+When you receive an access token from an OAuth2 server, you can store it in a secure manner to use it later for authenticating API requests. 
+One way to do this is by storing the token in a secure cookie in the browser or in a secure storage system on the server, such as a database or cache. 
+The token should be encrypted and signed to ensure its integrity.
+
+In a browser-based application, you can store the token in a cookie with the HttpOnly and Secure flags set. 
+The HttpOnly flag prevents the cookie from being accessed by JavaScript, which helps to protect against 
+cross-site scripting (XSS) attacks, while the Secure flag ensures that the cookie is only sent over HTTPS.
+
+In a server-side application, you can store the token in a secure storage system, such as a database or cache, 
+and associate it with the user who generated it. You can then retrieve the token from the storage system when needed 
+and use it to authenticate API requests.
+
+It's important to note that access tokens usually have an expiration time. 
+So, you may need to refresh the token periodically to ensure that you have a valid token to use for making API requests. 
+The refresh token is usually obtained along with the access token and can be used to obtain a new access token when the old one expires.
+*/
