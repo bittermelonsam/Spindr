@@ -149,18 +149,23 @@ app.get('/callback', (req, res) => {
           maxAge: 3600000, //cookie will expire in an hour
         });
 
-        axios
-          .get('https://api.spotify.com/v1/me', {
-            headers: {
-              Authorization: `${token_type} ${access_token}`,
-            },
-          })
+        res.redirect('http://localhost:8080')
 
-          .then((response) => {
-            //response using <pre> will display data received from spotify without linebreaks, whitespace
-            //axios stores data returned by requests in the data property of the response obj
-            res.send(`<pre>${JSON.stringify(response.data, null, 2)}</pre>`);
-          });
+        // axios
+        //   .get('https://api.spotify.com/v1/me', {
+        //     headers: {
+        //       Authorization: `${token_type} ${access_token}`,
+        //     },
+        //   })
+
+        //   .then((response) => {
+        //     //response using <pre> will display data received from spotify without linebreaks, whitespace
+        //     //axios stores data returned by requests in the data property of the response obj
+        //     //code below is to test whether we get the right response back from spotify
+        //     // res.send(`<pre>${JSON.stringify(response.data, null, 2)}</pre>`); 
+
+        //     res.redirect('http://localhost:3000') //once we successfully get token, redirect to main page 
+        //   });
       } else {
         //if not 200 response, server will give back what spotify is serving
         res.send(response);
@@ -170,6 +175,58 @@ app.get('/callback', (req, res) => {
       res.send(error);
     });
 });
+
+//THIS IS JUST A TEST ENDPOINT TO SEE IF CODE WORKS FOR fetch.js
+//delete this later since frontend handling fetch requests is cleaner, no need to use server as middleware to fetch spotify data
+app.get('/getRecs', async (req, res) => {
+    // const [cookies] = useCookies(['access_token']);
+    // const token = cookies.get('access_token');
+    // const tokenType = cookies.get('token_type');
+    const token = req.cookies ? req.cookies['access_token'] : null;
+    const tokenType = req.cookies ? req.cookies['token_type'] : null;
+
+    const params = {
+        limit: 50,
+        seed_genres: "pop,chill,dance,rnb", //genres up to 5, need to be a string, comma-separated. ex: "pop,edm,chill"
+        max_popularity: 40, //hardcoded for now? maybe let UI handle an input field for popularity too
+    }
+    axios.defaults.headers.common['Authorization'] = `${tokenType} ${token}`;
+
+    try { 
+        const response = await axios.get('https://api.spotify.com/v1/recommendations', {params});
+
+        let trackDetails = []; //array to store all 20 found uris of tracks from api call
+
+        response.data.tracks.forEach((track) => {
+          //only store tracks that have preview URLs
+          if (track.preview_url !== null) {
+            trackDetails.push({
+                trackName: track.name,
+                artistName: track.artists[0].name, 
+                albumImg: track.album.images[0], //get the largest size of album img for track, obj contains url and height/width
+                trackUri: track.uri,
+                previewUrl: track.preview_url, 
+            });
+          }
+        });
+
+        /*
+        obj contains:
+        - array of objects: all tracks and their details queried from recommendations endpoint
+        - array of objects: track name, artist name, album art, track URI, preview URL
+        */
+        const recTracks = {
+            tracks: response.data.tracks, //full object just in case react app needs it
+            trackDetails, //obj containing most necessary details for react app
+        }
+        console.log(recTracks);
+        return recTracks;
+
+    } catch (err) { 
+        console.log(err);
+    }
+})
+
 
 app.get('/createPlaylist', (req, res) => {
   //if access token exists in req cookie then assign it, otherwise set it to null
