@@ -1,11 +1,59 @@
 * {
-  background-color: gray;
+  background-color: #121212;
+  color: white;
 }
 
+/* Styling for login page */
+#login {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: solid 1px white;
+  position: absolute;
+  top: 30%;
+  left: 40%;
+  background-color: #1a1a1a;
+  color: white;
+}
+#login:hover { 
+  background-color: #242424;
+}
+
+#login input, button {
+  display: flex;
+  flex-direction: column;
+  margin: 0.5em;
+  background-color: #1a1a1a;
+}
+
+#login input, button {
+  background-color: #242424;
+}
+
+#login form, h1 {
+  background-color: #1a1a1a;
+}
+
+#login button {
+  justify-content: center;
+  color: white;
+}
+
+/* Styling for main page */
 #main-page-container {
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-top: 10%;
+}
+
+h1 {
+  margin: 1em 0;
+}
+
+#main-page-container input {
+  margin: 1em 0;
 }
 
 #card {
@@ -45,6 +93,11 @@
   border-radius: 20px;
   background-size: cover;
   background-position: center;
+}
+
+#playbutton {
+  background-color: green;
+  color: white;
 }
 
 @keyframes popup {
