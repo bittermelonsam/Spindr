@@ -22,6 +22,7 @@
     "node-fetch": "^2.6.1",
     "nodemon": "^2.0.22",
     "react": "^18.2.0",
+    "react-cookie": "^4.1.1",
     "react-dom": "^18.2.0",
     "react-tinder-card": "^1.6.2",
     "react-use-gesture": "^9.1.3",
