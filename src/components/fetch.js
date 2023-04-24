@@ -5,7 +5,7 @@ import { useCookies } from 'react-cookie';
 //need to export these functions for React app to use
 //using axios, they can make fetch requests in React app
 //genre takes in a string, comma-separated ex: "country,classical"
-async function getRecommendations(genres) {
+export async function getRecommendations(genres) {
 
     //TO DO: check if the useCookies method actually retrieves cookies within react app
     const [cookies] = useCookies(['access_token']);
@@ -13,7 +13,7 @@ async function getRecommendations(genres) {
     const tokenType = cookies.get('token_type');
 
     const params = {
-        limit: 20,
+        limit: 50,
         seed_genres: genres, //genres up to 5, need to be a string, comma-separated. ex: "pop,edm,chill"
     }
     
@@ -63,7 +63,7 @@ async function getRecommendations(genres) {
 }
 
 //function to get user info
-async function getUser() {
+export async function getUser() {
     const [cookies] = useCookies(['access_token']);
     const token = cookies.get('access_token');
     const tokenType = cookies.get('token_type');
@@ -74,17 +74,12 @@ async function getUser() {
     try { 
         const response = await axios.get('https://api.spotify.com/v1/me');
 
-        ({ id, display_name,  external_urls }) = response.data;
+       const { id, display_name,  external_urls } = response.data;
 
-        /*
-        obj contains:
-        - array of objects: all tracks and their details queried from recommendations endpoint
-        - array of objects: track name, artist name, album art, track URI, preview URL
-        */
         const userData = {
             id,
             display_name,
-            spotifyProfileUrl: external_urls.spotify,
+            spotifyProfileUrl: external_urls.spotify, //url to user's profile
         }
 
         return userData;
@@ -94,7 +89,7 @@ async function getUser() {
     }
 }
 
-async function createPlaylist() {
+export async function createPlaylist() {
     const [cookies] = useCookies(['access_token']);
     const token = cookies.get('access_token');
     const tokenType = cookies.get('token_type');
@@ -124,7 +119,7 @@ async function createPlaylist() {
 
 //add tracks to playlist, requires playlistId taken from createPlaylist
 //frontend needs to store returned playlistId as a const in react app so it can be passed into addToPlaylist
-async function addToPlaylist(playlistId, tracks) {
+export async function addToPlaylist(playlistId, tracks) {
     const [cookies] = useCookies(['access_token']);
     const token = cookies.get('access_token');
     const tokenType = cookies.get('token_type');
@@ -143,3 +138,4 @@ async function addToPlaylist(playlistId, tracks) {
         console.log(err);
     }
 }
+

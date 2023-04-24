@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import MainPage from './mainPage';
 import Login from './login';
+import * as fetch from './fetch';
 
 function App() {
   // A state that represents if user is logged in
