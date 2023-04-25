@@ -1,1 +1,1 @@
-# Splinder
+# Spinder
