@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-// const path = require('path');
+const path = require('path');
 // const mongoose = require('mongoose');
 const querystring = require('node:querystring');
 const crypto = require('crypto');
@@ -43,7 +43,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8080');
+  res.header('Access-Control-Allow-Origin', 'http://localhost:8080');
   res.header('Access-Control-Allow-Credentials', true);
   res.setHeader(
     'Access-Control-Allow-Methods',
@@ -179,7 +179,7 @@ app.get('/callback', (req, res) => {
 });
 
 app.get('/', (req, res) => {
-  res.send('this will be populated by the goated frontend team (Wes and Tay)');
+  res.sendFile(path.join(__dirname, '../src/index.html'));
 });
 
 app.post('/getSongRecs', (req, res) => {
