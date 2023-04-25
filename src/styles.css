@@ -1,6 +1,8 @@
 * {
   background-color: #121212;
   color: white;
+  font-family: 'Cabin' ;
+  /* border: solid red 1px; */
 }
 
 /* Styling for login page */
@@ -13,14 +15,18 @@
   position: absolute;
   top: 30%;
   left: 40%;
-  background-color: #1a1a1a;
+  /* background-color: #430a0a; */
   color: white;
+  border-radius: 20px;
+  padding: 20px;
+  /* width: 30%; */
+  
 }
 #login:hover { 
   background-color: #242424;
 }
 
-#login input, button {
+#login input,#login button {
   display: flex;
   flex-direction: column;
   margin: 0.5em;
@@ -38,6 +44,12 @@
 #login button {
   justify-content: center;
   color: white;
+  border-radius: 20px;
+  width: 30%;
+  align-items: center;
+  outline: none;
+  /* width: 30px; */
+
 }
 
 /* Styling for main page */
@@ -45,16 +57,12 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 10%;
 }
 
 h1 {
-  margin: 1em 0;
+  margin: 1em 2em;;
 }
 
-#main-page-container input {
-  margin: 1em 0;
-}
 
 #card {
   display: flex;
@@ -72,9 +80,12 @@ h1 {
   width: 50%;
 }
 
-
-.swipe {
+div.swipe {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   position: absolute;
+  /* top: 30%; */
 }
 
 .cardContainer {
@@ -95,9 +106,15 @@ h1 {
   background-position: center;
 }
 
-#playbutton {
-  background-color: green;
+#playButton {
+  background-color:  rgb(18, 236, 18) 2px;
   color: white;
+  border-radius: 20px;
+  width: 50%;
+  align-items: center;
+  padding: 10px;
+  outline: none;
+  border: white;
 }
 
 @keyframes popup {
@@ -108,4 +125,62 @@ h1 {
   57%  { transform: scale(1,1) }
   64%  { transform: scale(1,1) }
   100% { transform: scale(1,1) }
+}
+
+#searchbar {
+  /* max-width: 260px; */
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 400px;
+  width: 20%;
+}
+
+#searchbar input {
+  padding: 10px;
+  margin: 50px 0;
+  border-radius: 20px;
+  border: solid white;
+  /* width: 100%; */
+  align-items: center;
+  width: 50%
+  
+  
+}
+
+#searchbutton {
+  height: 40px;
+  align-self: center;
+  border-radius: 20px;
+  border: solid white;
+  width: 30%;
+}
+
+button:hover {
+  cursor: pointer;
+}
+
+#title {
+  font-size: 100px;
+  margin: 20px;
+  border: solid rgb(18, 236, 18) 2px;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+/* #searchbar, .card{rgb(18, 236, 18) 2px;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+
+} */
+/* 
+.container1 {
+  display: flex;
+  align-items: center;
+} */
+
+input:focus {
+  outline: 1px solid rgb(18, 236, 18);
 }

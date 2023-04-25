@@ -13,7 +13,7 @@ const images = [
 ];
 
 
-export default function Card() {
+export default function Card(props) {
 
 
   const [lastDirection, setLastDirection] = useState();
@@ -31,14 +31,13 @@ export default function Card() {
     <div className='cardContainer'> 
       {images.map((img) => {
         return <TinderCard className='swipe' key={img} onSwipe={(dir) => swiped(dir, img)} onCardLeftScreen={() => outOfFrame(img)} preventSwipe={['up', 'down']}>
-          <div className='card' style={{backgroundImage: `url(${img})`}}>
+          <div className='card container1' style={{backgroundImage: `url(${img})`}}>
           </div>
-          <p>Artist Name</p>
+          <p>{props.musicList}</p>
           <button id='playButton'>Play</button>
         </TinderCard>
       })
-      }
-      
+      }  
     </div>
   )
 }
