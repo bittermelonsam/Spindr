@@ -1,16 +1,17 @@
 import axios from 'axios';
-import { useCookies } from 'react-cookie';
+
+
+const getCookieValue = (name) => (
+    document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)')?.pop() || ''
+  )
 
 //need to export these functions for React app to use
 //using axios, they can make fetch requests in React app
 //genre takes in a string, comma-separated ex: "country,classical"
 export async function getRecommendations(genres) {
   //TO DO: check if the useCookies method actually retrieves cookies within react app
-  const [cookies] = useCookies(['access_token']);
-  console.log('cookie', cookies);
-  const token = cookies['access_token'];
-  console.log('TOKEN : ', token);
-  const tokenType = cookies['token_type'];
+  const token = getCookieValue('access_token');
+  const tokenType = getCookieValue('token_type');
 
   const params = {
     limit: 30,
