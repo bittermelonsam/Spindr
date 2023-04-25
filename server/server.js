@@ -198,7 +198,7 @@ app.post('/getSongRecs', (req, res) => {
 
   spotifyApi
     .getRecommendations({
-      seed_genres: 'pop,chill',
+      seed_genres: 'pop,chill', //take user input
       max_popularity: 60,
     })
     .then((data) => {

@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "main": "webpack.config.js",
   "scripts": {
-    "start": "nodemon server/server.js && open http://localhost:3000",
+    "start": "nodemon server/server.js",
     "build": "webpack --mode production",
     "dev": "webpack-dev-server --mode development --open --hot"
   },
