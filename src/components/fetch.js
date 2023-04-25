@@ -35,7 +35,7 @@ export async function getRecommendations(genres) {
       if (track.preview_url !== null) {
         trackDetails.push({
           trackName: track.name,
-          artistName: track.artists.name,
+          artistName: track.artists[0].name,
           albumImg: track.album.images[0], //get the largest size of album img for track
           trackUri: track.uri,
           previewUrl: track.preview_url,
@@ -65,9 +65,8 @@ export async function getRecommendations(genres) {
 
 //function to get user info
 export async function getUser() {
-  const [cookies] = useCookies(['access_token']);
-  const token = cookies.get('access_token');
-  const tokenType = cookies.get('token_type');
+  const token = getCookieValue('access_token');
+  const tokenType = getCookieValue('token_type');
 
   //need to set header with token for axios fetch requests
   axios.defaults.headers.common['Authorization'] = `${tokenType}: ${token}`;
@@ -90,9 +89,8 @@ export async function getUser() {
 }
 
 export async function createPlaylist() {
-  const [cookies] = useCookies(['access_token']);
-  const token = cookies.get('access_token');
-  const tokenType = cookies.get('token_type');
+  const token = getCookieValue('access_token');
+  const tokenType = getCookieValue('token_type');
 
   //need to set header with token for axios fetch requests
   axios.defaults.headers.common['Authorization'] = `${tokenType}: ${token}`;
@@ -122,9 +120,8 @@ export async function createPlaylist() {
 //add tracks to playlist, requires playlistId taken from createPlaylist
 //frontend needs to store returned playlistId as a const in react app so it can be passed into addToPlaylist
 export async function addToPlaylist(playlistId, tracks) {
-  const [cookies] = useCookies(['access_token']);
-  const token = cookies.get('access_token');
-  const tokenType = cookies.get('token_type');
+  const token = getCookieValue('access_token');
+  const tokenType = getCookieValue('token_type');
 
   //need to set header with token for axios fetch requests
   axios.defaults.headers.common['Authorization'] = `${tokenType}: ${token}`;

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useSpring, animated } from '@react-spring/web';
 import TinderCard from 'react-tinder-card'
-
+import * as Spotify from './fetch';
 
 
 const images = [
@@ -15,7 +15,7 @@ const images = [
 
 export default function Card(props) {
 
-
+  //add the fetch functions here
   const [lastDirection, setLastDirection] = useState();
   
   const swiped = (direction, nameToDelete) => {
