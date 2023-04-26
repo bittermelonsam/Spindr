@@ -117,16 +117,6 @@ div.swipe {
   border: white;
 }
 
-@keyframes popup {
-  0%   { transform: scale(1,1) }
-  10%  { transform: scale(1.1,1.1) }
-  30%  { transform: scale(.9,.9) }
-  50%  { transform: scale(1,1) }
-  57%  { transform: scale(1,1) }
-  64%  { transform: scale(1,1) }
-  100% { transform: scale(1,1) }
-}
-
 #searchbar {
   /* max-width: 260px; */
   display: flex;
@@ -169,18 +159,17 @@ button:hover {
   padding: 10px;
 }
 
-/* #searchbar, .card{rgb(18, 236, 18) 2px;
-  display: flex;
-  align-items: center;
-  flex-direction: row;
-
-} */
-/* 
-.container1 {
-  display: flex;
-  align-items: center;
-} */
-
 input:focus {
   outline: 1px solid rgb(18, 236, 18);
+}
+
+/* Styling needed for tindercards */
+@keyframes popup {
+  0%   { transform: scale(1,1) }
+  10%  { transform: scale(1.1,1.1) }
+  30%  { transform: scale(.9,.9) }
+  50%  { transform: scale(1,1) }
+  57%  { transform: scale(1,1) }
+  64%  { transform: scale(1,1) }
+  100% { transform: scale(1,1) }
 }
