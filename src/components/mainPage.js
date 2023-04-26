@@ -1,14 +1,11 @@
 import React from "react";
-import Card from "./card";
+import Card from "./Card";
 
 export default function MainPage(props){
-  
+  // User searches for a genre and then clicks button which is passed up to App.js
   return(
-    //div for flex container
   <div id="main-page-container">
-    {/* //input tag */}
     <div className='container1' id='searchbar'>
-      
       <input onChange={props.handleOnChange} placeholder="Enter Genre here"></input>
       <button id='searchbutton' onClick={props.getRecommendations}>Search</button>
     </div>
