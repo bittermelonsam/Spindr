@@ -13,23 +13,24 @@ module.exports = {
     }),
   ],
   devServer: {
-    static: {
-      directory: path.resolve(__dirname, 'dist'),
-      publicPath: '/dist',
-    },
+    // static: {
+    //   directory: path.resolve(__dirname, 'dist'),
+    //   publicPath: '/dist',
+    // },
     proxy: {
-      '/api': {
+      '/': {
         target: 'http://localhost:3000',
         secure: false,
       },
     },
-    headers: {
-      'Access-Control-Allow-Origin': 'http://localhost:8080',
-      'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
-      'Access-Control-Allow-Headers':
-        'X-Requested-With, content-type, Authorization',
-    },
-    historyApiFallback: true,
+    port: 8080,
+    // headers: {
+    //   'Access-Control-Allow-Origin': 'http://localhost:8080',
+    //   'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
+    //   'Access-Control-Allow-Headers':
+    //     'X-Requested-With, content-type, Authorization',
+    // },
+    // historyApiFallback: true, //serves index.html inplace of any 404
   },
   module: {
     rules: [
