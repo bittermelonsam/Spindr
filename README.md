@@ -1,1 +1,1 @@
-# Spinder
+# Spindr
