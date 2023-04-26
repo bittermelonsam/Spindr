@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useSpring, animated } from '@react-spring/web';
 import TinderCard from 'react-tinder-card'
-import * as Spotify from './fetch';
+
 
 // Stock images until we pull data from spotify api
 const images = [
@@ -15,7 +15,7 @@ const images = [
 
 export default function Card(props) {
 
-  // State that represents which way the user is swiping a card  //add the fetch functions here
+  // State that represents which way the user is swiping a card
   const [lastDirection, setLastDirection] = useState();
   // Function that will update the direction user is swiping based on movements, nameTodelete is the current data passed in
   const swiped = (direction, nameToDelete) => {
